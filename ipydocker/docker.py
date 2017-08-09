@@ -3,7 +3,7 @@ import docker
 from traitlets import Dict, List, observe, Unicode
 
 @widgets.register
-class DockerW(widgets.DOMWidget):
+class DockerManager(widgets.DOMWidget):
 
     """"""
     _view_name = Unicode('DockerView').tag(sync=True)
@@ -22,7 +22,7 @@ class DockerW(widgets.DOMWidget):
     parameters = Dict().tag(sync=True)
 
     @observe("command")
-    def _on_command_change_(self, changed):
+    def _on_command_change(self, changed):
         self.command = changed['new']
         if self.command == 'ps':
             self.containers = []
@@ -69,6 +69,10 @@ class DockerW(widgets.DOMWidget):
     def _remove_container(self):
         if self.parameters['containerId']:
             self._cli.stop(self.parameters['containerId'])
-            self._cli.remove_container(self.parameters['containerId'], force=True)
+            try:
+                self._cli.remove_container(self.parameters['containerId'], force=True)
+            except:
+                pass
+                
             self.containers = []
             self.containers = self._cli.containers()

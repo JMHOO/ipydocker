@@ -136,7 +136,7 @@ var RemoveContainer = function(container_id, fn_confirmed) {
     });
 };
 
-var showDialog_CreateContainer = function(image_name, docker_view) {
+var CreateContainer = function(image_name, fn_ready_create) {
     var create_container_template = `
         <div class="panel panel-info">
             <div class="panel-heading">
@@ -196,7 +196,7 @@ var showDialog_CreateContainer = function(image_name, docker_view) {
                         "command": $(this).find('#container_command').val(),
                         "image": image_name,
                     };
-                    docker_view.onReadyNewContainer(obj);
+                    fn_ready_create(obj);
                 }
             }
         },
@@ -391,14 +391,13 @@ var DockerView = widgets.DOMWidgetView.extend({
     },
 
     onNewContainer: function(e) {
-        showDialog_CreateContainer($(e.target).attr('image-id'), this);
-    },
-
-    onReadyNewContainer: function(param) {
-        // console.log(param);
-        this.model.set('parameters', param);
-        this.model.set('command', 'create');
-        this.touch();
+        var image_id = $(e.target).attr('image-id');
+        var that = this;
+        CreateContainer(image_id, function(options) {
+            that.model.set('parameters', options);
+            that.model.set('command', 'create');
+            that.touch();
+        });
     },
 
     onContainerChanged: function() {

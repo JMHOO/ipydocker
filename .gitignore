@@ -10,3 +10,5 @@ ipydocker/static/
 
 # OS X
 .DS_Store
+
+js/package-lock.json
