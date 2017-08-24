@@ -14,8 +14,8 @@ class DockerManager(widgets.DOMWidget):
     _model_module_version = Unicode('^0.1.0').tag(sync=True)
 
     _cli = docker.APIClient(base_url='unix:///var/run/docker.sock')
-    docker_version = Unicode(_cli.version()['Version']).tag(sync=True)
-    docker_info = Dict(_cli.info()).tag(sync=True)
+    # docker_version = Unicode(_cli.version()['Version']).tag(sync=True)
+    docker_info = Dict().tag(sync=True)
     command = Unicode('').tag(sync=True)
     containers = List().tag(sync=True)
     images = List().tag(sync=True)
@@ -34,6 +34,8 @@ class DockerManager(widgets.DOMWidget):
             self._create_container()
         elif self.command == 'remove':
             self._remove_container()
+        elif self.command == 'info':
+            self.docker_info = self._cli.info()
 
     def _create_container(self):
         volumes = {'/var/run/docker.sock': '/var/run/docker.sock',

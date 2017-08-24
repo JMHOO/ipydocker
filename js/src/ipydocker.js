@@ -230,6 +230,8 @@ var toolbar = Backbone.View.extend({
                 <p class="text-primary text-right ">Docker version: <%= version%> <br> CPU: <%= cpu%> | Memory: <%= mem%> </p>
             </div>`;
 
+        this.model.set('command', 'info');
+        this.touch();
         var info = this.model.get('docker_info');
         var mem_bytes = info['MemTotal'];
         var e = Math.floor(Math.log(mem_bytes) / Math.log(1024));
