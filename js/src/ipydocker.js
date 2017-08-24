@@ -226,21 +226,20 @@ var toolbar = Backbone.View.extend({
                 <button class="btn btn-default" id="containers">Containers</button> 
                 <button class="btn btn-default" id="images">Images</button> 
             </div>
-            <div class="col-sm-3">
-                <p class="text-primary text-right ">Docker version: <%= version%> <br> CPU: <%= cpu%> | Memory: <%= mem%> </p>
-            </div>`;
+            `;
 
-        this.model.set('command', 'info');
-        this.touch();
-        var info = this.model.get('docker_info');
-        var mem_bytes = info['MemTotal'];
-        var e = Math.floor(Math.log(mem_bytes) / Math.log(1024));
-        var memTotal = (mem_bytes / Math.pow(1024, e)).toFixed(2) + " " + " KMGTP".charAt(e) + "iB";
-        this.$el.html(_.template(toolbar_template)({
-            version: info['ServerVersion'],
-            cpu: info['NCPU'],
-            mem: memTotal,
-        }));
+        //this.model.set('command', 'info');
+        //this.touch();
+        //var info = this.model.get('docker_info');
+        //var mem_bytes = info['MemTotal'];
+        //var e = Math.floor(Math.log(mem_bytes) / Math.log(1024));
+        //var memTotal = (mem_bytes / Math.pow(1024, e)).toFixed(2) + " " + " KMGTP".charAt(e) + "iB";
+        this.$el.html(toolbar_template);
+        //this.$el.html(_.template(toolbar_template)({
+        //    version: info['ServerVersion'],
+        //    cpu: info['NCPU'],
+        //    mem: memTotal,
+        //}));
         return this;
     },
 });
